@@ -12,7 +12,7 @@ from utils import (
     generate_insights,
     what_if_otd_impact,
 )
-from ml_models import train_supplier_risk_model, predict_supplier_risk, forecast_category_prices
+from ml_models import train_supplier_risk_model, predict_supplier_risk, forecast_category_prices, get_feature_importance
 
 try:
     from st_aggrid import AgGrid, GridOptionsBuilder
@@ -111,8 +111,20 @@ elif page.startswith("2"):
     with st.expander("Train / Re-train model", expanded=True):
         test_size = st.slider("Test split", 0.1, 0.4, 0.2, 0.05)
         random_state = st.number_input("Random seed", 0, 9999, 42)
-        model, report, feature_info = train_supplier_risk_model(df, test_size=float(test_size), random_state=int(random_state))
-        st.code(report)
+      model, report, feature_info = train_supplier_risk_model(
+    df,
+    test_size=float(test_size),
+    random_state=int(random_state)
+)
+
+st.markdown("#### Model Performance")
+st.code(report)
+
+# --- Model Explainability ---
+st.markdown("#### 📊 Key Drivers of Supplier Risk")
+importance_df = get_feature_importance(model, feature_info)
+st.dataframe(importance_df, use_container_width=True)
+
 
     st.markdown("#### Predict risk for filtered data")
     preds = predict_supplier_risk(model, f, feature_info)
