@@ -1,47 +1,55 @@
-# Procurement Intelligence & KPI Dashboard with Predictive Analytics
+# Procurement & Supply Chain Intelligence Dashboard
 
-A Streamlit web app that turns a procurement CSV into:
-- Interactive KPI dashboard (supplier scorecards, spend analysis, savings tracker)
-- Supplier risk predictor (Random Forest) using engineered proxy labels
-- Category price forecasting (Prophet if available, otherwise seasonal-naive)
-- What-if analysis on an on-time-delivery proxy
-- Automated insight generator (rule-based narrative insights)
+A data-driven decision support system for procurement and sourcing teams.
 
-> Note: The provided dataset does not include promised delivery dates or payment terms.
-> This app uses **proxy logic** (lead time SLA quantiles, defects, compliance) to demonstrate the idea.
+This project transforms raw purchasing data into supplier insights, risk visibility, savings tracking, and price trend forecasting.
 
-Kaggle Dataset link: https://www.kaggle.com/datasets/shahriarkabir/procurement-kpi-analysis-dataset 
+---
 
-## 1) Setup
+## 🚀 What This System Delivers
+
+- Supplier performance monitoring  
+- Procurement KPI tracking  
+- Risk identification using predictive modeling  
+- Price behavior forecasting  
+- Data-backed negotiation support  
+
+---
+
+## 🧠 My Role & Contribution
+
+In this project, I focused on applying analytics and machine learning to real procurement problems.
+
+My work includes:
+
+- Preparing messy operational data for analysis  
+- Designing supplier risk indicators  
+- Building predictive models for reliability  
+- Generating insights for sourcing decisions  
+- Translating numbers into business actions  
+
+---
+
+## 🏢 Business Impact
+
+The solution helps organizations:
+
+✔ detect unreliable suppliers early  
+✔ understand cost drivers  
+✔ measure procurement efficiency  
+✔ support strategic sourcing  
+✔ improve vendor negotiations  
+
+---
+
+## 🛠 Technologies Used
+
+Python, Pandas, NumPy, Scikit-learn, Streamlit, Plotly
+
+---
+
+## ▶️ How to Run
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate   # macOS/Linux
-# .venv\Scripts\activate    # Windows
-
 pip install -r requirements.txt
-```
-
-## 2) Run
-
-Place your CSV beside `app.py` or pass the full path in the app.
-
-```bash
 streamlit run app.py
-```
-
-Default CSV name expected: `Procurement KPI Analysis Dataset.csv`
-
-## 3) Project structure
-
-```
-Procurement_Analytics_App/
-├── app.py
-├── requirements.txt
-├── data_preprocessing.py
-├── ml_models.py
-├── utils.py
-└── README.md
-```
-
-
