@@ -115,6 +115,8 @@ def forecast_category_prices(df: pd.DataFrame, category: str, months: int = 6):
     hist = hist.sort_values("ds")
 
     # Try Prophet
+        else:
+            season = np.array([hist["y"].iloc[-1]])
     try:
         from prophet import Prophet
         m = Prophet()
@@ -127,8 +129,6 @@ def forecast_category_prices(df: pd.DataFrame, category: str, months: int = 6):
         # Seasonal naive (repeat last 12 months pattern if possible, else repeat last value)
         if len(hist) >= 12:
             season = hist["y"].tail(12).to_numpy()
-        else:
-            season = np.array([hist["y"].iloc[-1]])
 
         last_date = hist["ds"].max()
         future_dates = pd.date_range(last_date + pd.offsets.MonthBegin(1), periods=months, freq="MS")
@@ -137,3 +137,23 @@ def forecast_category_prices(df: pd.DataFrame, category: str, months: int = 6):
             yhat.append(float(season[i % len(season)]))
         fcst = pd.DataFrame({"ds": future_dates, "yhat": yhat})
         return hist, pd.concat([hist.rename(columns={"y":"yhat"}), fcst], ignore_index=True)
+
+def get_feature_importance(model, feature_info):
+    """
+    Extract feature importance from Random Forest.
+    Helps procurement teams understand key risk drivers.
+    """
+    try:
+        rf = model.named_steps["model"]
+        importances = rf.feature_importances_
+        names = feature_info["feature_cols"]
+
+        importance_df = pd.DataFrame({
+            "Feature": names,
+            "Importance": importances
+        }).sort_values(by="Importance", ascending=False)
+
+        return importance_df
+    except Exception:
+        return pd.DataFrame(columns=["Feature", "Importance"])
+
